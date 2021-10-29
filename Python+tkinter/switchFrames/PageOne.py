@@ -19,34 +19,64 @@ class PageOne(Frame):
         else:
             return False
 
-    def printEntryLog(self, cidade):
-        print(cidade.get())
+    def SubmitInformations(self):
+
+        if(len(self.entryNome.get()) <= 0 ):
+            self.entryNome.config(bg = 'red')
+            return
+        else:
+            self.db.insertInto(self.entryNome.get(), self.entryCidade.get(), self.clicked.get(), self.entryRua.get(), self.entryTelefone.get())
+            print("------------------------------"
+                "\nCliente cadastrado:" +self.entryNome.get()+
+                "\nCidade:" + self.entryCidade.get() + 
+                "\nEstado: "+self.clicked.get()+
+                "\nRua: "+self.entryRua.get()+
+                "\nTelefone: "+self.entryTelefone.get()+
+                "\n------------------------------")
+
+
+        self.entryNome.delete(0, 'end')
+        self.entryRua.delete(0, 'end')
+        self.entryTelefone.delete(0, 'end')
+        self.entryNome.config(bg = 'white')
+  
 
     def packEntrys(self,PackList):
-
         for entry in PackList:
             entry.pack()
 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
-
+        
         border_cadastro = Frame(self,
                                 highlightbackground="blue",
                                 highlightthickness=4,
                                 width=500,
                                 height=400,
                                 bd= 0)
+
+        self.db = controller.db
+        self.entryCidade = Entry(border_cadastro)
+        self.entryNome = Entry(border_cadastro)
+        self.entryRua = Entry(border_cadastro)
+        self.entryTelefone = Entry(border_cadastro)
+        self.clicked = StringVar()
+        self.clicked.set("PR")
+
    
 
         self.config(bg=controller.backgoung)
         self.controller = controller
-        label = Label(self,
+        self.label = Label(self,
                       text="Cadastrar Cliente",
                       font=controller.title_font,
                       bg=controller.backgoung,
                       fg = "white")
-        entryCidade = Entry(border_cadastro)
-        button = Button(self,
+
+
+
+        self.drop = OptionMenu(border_cadastro, self.clicked, "PR", "SP", "RJ", "RS", "SC", "Outro")
+        self.button = Button(self,
                          text="VOLTAR",
                          font=("Comic Sans", 15),
                          width=20,
@@ -58,7 +88,7 @@ class PageOne(Frame):
                          command=lambda: self.clearFrame(border_cadastro, controller))
 
         
-        buttonSumit = Button(border_cadastro,
+        self.buttonSumit = Button(border_cadastro,
                          text="SUBMIT",
                          font=("Comic Sans", 15),
                          width=20,
@@ -67,7 +97,7 @@ class PageOne(Frame):
                          bg="green",
                          activebackground="green",
                          activeforeground="white",
-                         command= lambda: self.printEntryLog( entryCidade)
+                         command= lambda: self.SubmitInformations()
                          )
 
 
@@ -78,33 +108,24 @@ class PageOne(Frame):
         labelEstado = Label(border_cadastro, text = "Estado", fg="white", background=controller.backgoung)
         labelCidade = Label(border_cadastro, text = "Cidade", fg="white", background=controller.backgoung)
 
-        entryNome = Entry(border_cadastro)
-        entryRua = Entry(border_cadastro)
-        entryEstado = Entry(border_cadastro)
-
-
-        entryTelefone = Entry(border_cadastro)
+  
 
 
         #entry.place(x=150, y=60)
-        clicked = StringVar()
-        clicked.set("PR")
 
-
-        drop = OptionMenu(border_cadastro, clicked, "PR", "SP", "RJ", "RS", "SC", "Outro")
 
         border_cadastro.pack_propagate(0)
 
-        entryCidade.insert(END, 'Campo Mourão')
+        self.entryCidade.insert(END, 'Campo Mourão')
         border_cadastro.config(bg=controller.backgoung)
 
-        packList = [labelNomeCliente,entryNome,
-                    labelTelefone,entryTelefone,
-                    labelCidade, entryCidade,
-                    labelRua,entryRua,
-                    label, border_cadastro, button,
-                    labelEstado, drop,
-                    buttonSumit]
+        packList = [labelNomeCliente,self.entryNome,
+                    labelTelefone,self.entryTelefone,
+                    labelCidade, self.entryCidade,
+                    labelRua,self.entryRua,
+                    self.label, border_cadastro, self.button,
+                    labelEstado, self.drop,
+                    self.buttonSumit]
 
         self.packEntrys(packList)
 

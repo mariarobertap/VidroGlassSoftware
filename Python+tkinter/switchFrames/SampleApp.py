@@ -3,6 +3,7 @@ from tkinter import font
 from PageOne import PageOne
 from PageTwo import PageTwo
 from StartPage import StartPage
+from Database import Database
 
 
 class SampleApp(Tk):
@@ -13,6 +14,8 @@ class SampleApp(Tk):
         self.title_font = font.Font(family='Helvetica', size=40, weight="bold", slant="italic")
        
         self.backgoung = "#303236"
+        self.db = Database()
+        self.state('zoomed')
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -20,7 +23,7 @@ class SampleApp(Tk):
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        
+
 
         self.frames = {}
         for F in (StartPage, PageOne, PageTwo):
@@ -42,6 +45,7 @@ class SampleApp(Tk):
 
 if __name__ == "__main__":
     app = SampleApp()
-    app.geometry('600x600')
+    app.state=('zoomed')
     app.backgoung="#303236"
+
     app.mainloop()
