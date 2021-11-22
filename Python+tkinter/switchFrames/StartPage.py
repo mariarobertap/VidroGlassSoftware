@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import font               
 from Database import Database
+from invoiceGenerator import start
 
 class StartPage(Frame):
 
@@ -52,7 +53,7 @@ class StartPage(Frame):
                             bg="#3f71d4",
                             activebackground="#084dd4",
                             activeforeground="white",
-                            command=lambda: controller.show_frame("PageTwo"))
+                            command=lambda: start())
 
         button4.pack()                
         button3.pack()                    
