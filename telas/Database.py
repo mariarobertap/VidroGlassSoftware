@@ -64,6 +64,32 @@ class Database:
         conn.close()
         return rows
 
+    def updateClient(self, id, name, telefone, cidade, rua, estado):
+        conn = sqlite3.connect("produto.db")
+        c = conn.cursor()
+        c.execute(
+            "UPDATE cliente SET name ='"
+            + name
+            + "', telefone = '"
+            + telefone
+            + "', cidade ='"
+            + cidade
+            + "', rua = '"
+            + rua
+            + "',estado = '"
+            + estado
+            + "'"
+            + "WHERE id = '"
+            + str(id)
+            + "'"
+        )
+          
+        print(c.fetchall())
+        conn.commit()
+        conn.close()
+
+        
+
     def StartDatabase(self):
         if self.DataBaseExist('produto.db'):
             print("database existe")

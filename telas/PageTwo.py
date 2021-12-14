@@ -134,9 +134,11 @@ class PageTwo(Frame):
         if(selectedValues == 0):
             print("Nothing was selected")
         
-       
+        id = selectedValues['values'][0]
         name = selectedValues['values'][1]
-
+        city = selectedValues['values'][2]
+        rua = selectedValues['values'][4]
+        telefone = selectedValues['values'][5]
 
         app = Tk()
 
@@ -153,12 +155,15 @@ class PageTwo(Frame):
         app.entryNome = Entry(border_cadastro, )
         app.entryRua = Entry(border_cadastro)
         app.entryTelefone = Entry(border_cadastro)
-        app.clicked = StringVar()
-        app.clicked.set("PR")
+       
 
         app.entryNome.insert(END, name)
+        app.entryCidade.insert(END,city)
+        app.entryRua.insert(END, rua)
+        app.entryTelefone.insert(END, telefone)
    
-
+        app.clicked = StringVar()
+        app.clicked.set("PR")
   
         app.label = Label(app,
                       text="Cadastrar Cliente",
@@ -189,9 +194,9 @@ class PageTwo(Frame):
                          fg="white",
                          bg="green",
                          activebackground="green",
-                         activeforeground="white"
+                         activeforeground="white",
+                         command=lambda:  self.db.updateClient(id, app.entryNome.get(), app.entryTelefone.get(), app.entryCidade.get(), app.entryRua.get(), app.clicked.get())
                          )
-
 
 
         labelNomeCliente = Label(border_cadastro, text = "Nome cliente:", fg="white", background=self.background)
@@ -208,7 +213,7 @@ class PageTwo(Frame):
 
         border_cadastro.pack_propagate(0)
 
-        app.entryCidade.insert(END, 'Campo Mourão')
+       
         border_cadastro.config(bg=self.background)
 
         packList = [labelNomeCliente,app.entryNome,
